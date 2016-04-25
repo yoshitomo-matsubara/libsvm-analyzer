@@ -87,27 +87,31 @@ public class WeightVectorRegenerator
         }
     }
 
-    public static void regenerate(String inputDirPath, String outputDirPath)
+    public static void regenerate(String inputFilePath, String outputDirPath)
     {
-        ArrayList<File> inputFileList = FileManager.getFileList(inputDirPath);
-        for(File inputFile : inputFileList)
-        {
-            double[][] supportVectorMatrix = loadSupportVectors(inputFile);
-            double[] weightVector = regenerateWeightVector(supportVectorMatrix);
-            String inputFileName = inputFile.getName();
-            String outputFilePath = outputDirPath + inputFile.getName() + ".wvec";
-            File parentDir = new File((new File(outputFilePath)).getParent());
-            if(!parentDir.exists())
-                parentDir.mkdirs();
+        File inputFile = new File(inputFilePath);
+        double[][] supportVectorMatrix = loadSupportVectors(inputFile);
+        double[] weightVector = regenerateWeightVector(supportVectorMatrix);
+        String inputFileName = inputFile.getName();
+        String outputFilePath = outputDirPath + FileManager.removeExtension(inputFile.getName()) + ".wvec";
+        File parentDir = new File((new File(outputFilePath)).getParent());
+        if(!parentDir.exists())
+            parentDir.mkdirs();
 
-            outputWeightVector(weightVector, inputFileName , outputFilePath);
-        }
+        outputWeightVector(weightVector, inputFileName , outputFilePath);
     }
 
     public static void main(String[] args)
     {
-        String inputDirPath = args[0];
+        String inputPath = args[0];
         String outputDirPath = args[1];
-        regenerate(inputDirPath, outputDirPath);
+        if(FileManager.checkIfFile(inputPath))
+            regenerate(inputPath, outputDirPath);
+        else
+        {
+            ArrayList<String> inputFilePathList = FileManager.getFilePathList(inputPath);
+            for(String inputFilePath : inputFilePathList)
+                regenerate(inputFilePath, outputDirPath);
+        }
     }
 }

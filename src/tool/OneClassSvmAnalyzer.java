@@ -78,7 +78,7 @@ public class OneClassSvmAnalyzer
             for(int j=0;j<vectorMatrix[0].length;j++)
                 vectorMatrix[i][j] = 0.0d;
 
-        String delimiter = LibsvmFileUtil.getDelimiter(lines[0]);
+        String delimiter = LibsvmFileUtil.getBestDelimiter(lines[0]);
         for(int i=0;i<lines.length;i++)
         {
             String[] elements = lines[i].split(delimiter);

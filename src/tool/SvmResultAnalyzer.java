@@ -18,7 +18,7 @@ public class SvmResultAnalyzer
         int falseCount = 0;
         int fr = 0;
         int fa = 0;
-        String delimiter = LibsvmFileUtil.getDelimiter(testLines[0]);
+        String delimiter = LibsvmFileUtil.getBestDelimiter(testLines[0]);
         for(int i=0;i<resultLines.length;i++)
         {
             int resultLabel = (int)Double.parseDouble(resultLines[i]);

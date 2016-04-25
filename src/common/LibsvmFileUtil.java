@@ -2,7 +2,7 @@ package common;
 
 public class LibsvmFileUtil
 {
-    public static String getDelimiter(String line)
+    public static String getBestDelimiter(String line)
     {
         int countA = line.split(Constant.SPACE_DELIMITER).length;
         int countB = line.split(Constant.TAB_DELIMITER).length;

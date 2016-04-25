@@ -2,9 +2,7 @@ package tool;
 
 import common.FileManager;
 
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileWriter;
 import java.util.ArrayList;
 
 public class WeightVectorRegenerator
@@ -69,36 +67,18 @@ public class WeightVectorRegenerator
         return  weightVector;
     }
 
-    public static void outputWeightVector(double[] weightVector, String inputFileName, String outputFilePath)
-    {
-        try
-        {
-            BufferedWriter bw = new BufferedWriter(new FileWriter(outputFilePath));
-            StringBuffer sb = new StringBuffer();
-            for(int i=0;i<weightVector.length;i++)
-                sb.append("\t" + String.valueOf(weightVector[i]));
-
-            bw.write(inputFileName + "\t1" + sb.toString());
-            bw.close();
-        }
-        catch(Exception e)
-        {
-            System.out.println("Error @ outputWeightVector(double[], String, String) : " + e.toString());
-        }
-    }
-
     public static void regenerate(String inputFilePath, String outputDirPath)
     {
         File inputFile = new File(inputFilePath);
         double[][] supportVectorMatrix = loadSupportVectors(inputFile);
         double[] weightVector = regenerateWeightVector(supportVectorMatrix);
         String inputFileName = inputFile.getName();
-        String outputFilePath = outputDirPath + FileManager.removeExtension(inputFile.getName()) + ".wvec";
-        File parentDir = new File((new File(outputFilePath)).getParent());
-        if(!parentDir.exists())
-            parentDir.mkdirs();
+        StringBuffer sb = new StringBuffer(inputFileName + "\t1");
+        for(int i=0;i<weightVector.length;i++)
+            sb.append("\t" + String.valueOf(weightVector[i]));
 
-        outputWeightVector(weightVector, inputFileName , outputFilePath);
+        String outputFilePath = outputDirPath + FileManager.removeExtension(inputFile.getName()) + ".wvec";
+        FileManager.writeFile(new String[]{sb.toString()}, outputFilePath);
     }
 
     public static void main(String[] args)

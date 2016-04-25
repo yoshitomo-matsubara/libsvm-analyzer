@@ -1,7 +1,9 @@
 package tool;
 
+import common.Constant;
 import common.FileManager;
 import common.Kernel;
+import common.LibsvmFileUtil;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -41,7 +43,7 @@ public class OneClassSvmAnalyzer
         for(int i=startIndex;i<lines.length;i++)
         {
             String[] elements = lines[i].split(" ");
-            int lastIndex = Integer.parseInt(elements[elements.length - 1].split(":")[0]);
+            int lastIndex = Integer.parseInt(elements[elements.length - 1].split(Constant.KEY_VALUE_DELIMITER)[0]);
             if(lastIndex > maxIndex)
                 maxIndex = lastIndex;
         }
@@ -58,7 +60,7 @@ public class OneClassSvmAnalyzer
             alphas[svIndex] = Double.parseDouble(elements[0]);
             for(int j=1;j<elements.length;j++)
             {
-                String[] params = elements[j].split(":");
+                String[] params = elements[j].split(Constant.KEY_VALUE_DELIMITER);
                 int index = Integer.parseInt(params[0]) - 1;
                 double value = Double.parseDouble(params[1]);
                 vectorMatrix[svIndex][index] = value;
@@ -76,13 +78,14 @@ public class OneClassSvmAnalyzer
             for(int j=0;j<vectorMatrix[0].length;j++)
                 vectorMatrix[i][j] = 0.0d;
 
+        String delimiter = LibsvmFileUtil.getDelimiter(lines[0]);
         for(int i=0;i<lines.length;i++)
         {
-            String[] elements = lines[i].split("\t");
+            String[] elements = lines[i].split(delimiter);
             labelList.add(Integer.parseInt(elements[0]));
             for(int j=1;j<elements.length;j++)
             {
-                String[] params = elements[j].split(":");
+                String[] params = elements[j].split(Constant.KEY_VALUE_DELIMITER);
                 int index = Integer.parseInt(params[0]) - 1;
                 double value = Double.parseDouble(params[1]);
                 vectorMatrix[i][index] = value;
@@ -128,18 +131,23 @@ public class OneClassSvmAnalyzer
         for(int i=0;i<testVectorMatrix.length;i++)
             outputLines[i] = String.valueOf(labelList.get(i)) + "," + String.valueOf(estimate(testVectorMatrix[i], kernel, alphas, supportVectorMatrix, rho));
 
-        FileManager.writeFile(outputLines, outputDirPath + (new File(testFilePath)).getName() + ".est");
+        FileManager.writeFile(outputLines, outputDirPath + FileManager.removeExtension(testFilePath) + ".est");
     }
 
     public static void main(String[] args)
     {
-        String inputModelDirPath = args[0];
-        String inputTestDirPath = args[1];
-        String outputDirPath = args[2];
-        ArrayList<String> modelFilePathList = FileManager.getFilePathList(inputModelDirPath);
-        ArrayList<String> testFilePathList = FileManager.getFilePathList(inputTestDirPath);
-        int size = modelFilePathList.size();
-        for(int i=0;i<size;i++)
-            analyze(modelFilePathList.get(i), testFilePathList.get(i), outputDirPath);
+        String inputModelPath = args[0];
+        String inputTestPath = args[1];
+        String outputDirPath = (args.length >= 3)? args[2] : "";
+        if(FileManager.checkIfFile(inputModelPath))
+            analyze(inputModelPath, inputTestPath, outputDirPath);
+        else
+        {
+            ArrayList<String> modelFilePathList = FileManager.getFilePathList(inputModelPath);
+            ArrayList<String> testFilePathList = FileManager.getFilePathList(inputTestPath);
+            int size = modelFilePathList.size();
+            for(int i=0;i<size;i++)
+                analyze(modelFilePathList.get(i), testFilePathList.get(i), outputDirPath);
+        }
     }
 }

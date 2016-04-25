@@ -6,6 +6,11 @@ import java.util.Collections;
 
 public class FileManager
 {
+    public static boolean checkIfFile(String filePath)
+    {
+        return (new File(filePath)).isFile();
+    }
+
     public static ArrayList<File> getFileList(String inputDirPath)
     {
         ArrayList<File> fileList = new ArrayList<File>();
@@ -38,6 +43,18 @@ public class FileManager
             if(dir != null && !dir.exists())
                 dir.mkdirs();
         }
+    }
+
+    public static String removeExtension(String filePath)
+    {
+        if(filePath == null)
+            return null;
+
+        int index = filePath.lastIndexOf(".");
+        if(index != -1)
+            return filePath.substring(0, index);
+
+        return filePath;
     }
 
     public static String[] readFile(File file)

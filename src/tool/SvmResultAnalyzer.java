@@ -5,6 +5,8 @@ import common.FileManager;
 import common.LibsvmFileUtil;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Collections;
 
 public class SvmResultAnalyzer
 {
@@ -40,17 +42,39 @@ public class SvmResultAnalyzer
         return new double[]{frr, far};
     }
 
-    public static void analyze(String inputResultFilePath, String inputTestFilePath)
+    public static void analyze(String inputResultPath, String inputTestPath, String outputFilePath)
     {
-        System.out.println("FRR[%],FAR[%]");
-        double[] rates = calcFrrFar(inputResultFilePath, inputTestFilePath);
-        System.out.println(inputTestFilePath + Constant.COMMA_DELIMITER + String.valueOf(rates[0]) + Constant.COMMA_DELIMITER + String.valueOf(rates[1]));
+        if(FileManager.checkIfFile(inputResultPath))
+        {
+            double[] rates = calcFrrFar(inputResultPath, inputTestPath);
+            String[] lines = {"Test file,FRR,FAR", inputTestPath + Constant.COMMA_DELIMITER + String.valueOf(rates[0]) + Constant.COMMA_DELIMITER + String.valueOf(rates[1])};
+            FileManager.writeFile(lines, outputFilePath);
+        }
+        else
+        {
+            ArrayList<String> resultFilePathList = FileManager.getFilePathList(inputResultPath);
+            ArrayList<String> testFilePathList = FileManager.getFilePathList(inputTestPath);
+            Collections.sort(resultFilePathList);
+            Collections.sort(testFilePathList);
+            String[] lines = new String[resultFilePathList.size() + 1];
+            lines[0] = "Test file,FRR,FAR";
+            int resultFileSize = resultFilePathList.size();
+            for(int i=0;i<resultFileSize;i++)
+            {
+                String testFilePath = testFilePathList.get(i);
+                double[] rates = calcFrrFar(resultFilePathList.get(i), testFilePath);
+                lines[i + 1] = testFilePath + Constant.COMMA_DELIMITER + String.valueOf(rates[0]) + Constant.COMMA_DELIMITER + String.valueOf(rates[1]);
+            }
+
+            FileManager.writeFile(lines, outputFilePath);
+        }
     }
 
     public static void main(String[] args)
     {
-        String inputResultFilePath = args[0];
-        String inputTestFilePath = args[1];
-        analyze(inputResultFilePath, inputTestFilePath);
+        String inputResultPath = args[0];
+        String inputTestPath = args[1];
+        String outputFilePath = args[2];
+        analyze(inputResultPath, inputTestPath, outputFilePath);
     }
 }

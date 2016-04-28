@@ -49,4 +49,4 @@ or
 `[model dir path]`: path of a directory including model files (Note: The files will be sorted.)  
 `[test file path]`: path of a test file used for `svm_predict` in libsvm to generate the above result file  
 `[test dir path]`: path of a directory including test files (Note: The files will be sorted.)  
-`[output dir path]`: path of a newly crated output dir for output files of the regenerate values  
+`[output dir path]`: path of a newly crated output dir for output files of the pairs of the test label and the regenerated value  

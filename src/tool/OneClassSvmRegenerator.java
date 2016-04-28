@@ -8,7 +8,7 @@ import common.LibsvmFileUtil;
 import java.io.File;
 import java.util.ArrayList;
 
-public class OneClassSvmAnalyzer
+public class OneClassSvmRegenerator
 {
     public static Kernel createKernel(String[] lines)
     {

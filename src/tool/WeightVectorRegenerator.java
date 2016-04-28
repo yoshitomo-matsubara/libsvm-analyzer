@@ -83,13 +83,13 @@ public class WeightVectorRegenerator
 
     public static void main(String[] args)
     {
-        String inputPath = args[0];
+        String inputModelPath = args[0];
         String outputDirPath = args[1];
-        if(FileManager.checkIfFile(inputPath))
-            regenerate(inputPath, outputDirPath);
+        if(FileManager.checkIfFile(inputModelPath))
+            regenerate(inputModelPath, outputDirPath);
         else
         {
-            ArrayList<String> inputFilePathList = FileManager.getFilePathList(inputPath);
+            ArrayList<String> inputFilePathList = FileManager.getFilePathList(inputModelPath);
             for(String inputFilePath : inputFilePathList)
                 regenerate(inputFilePath, outputDirPath);
         }

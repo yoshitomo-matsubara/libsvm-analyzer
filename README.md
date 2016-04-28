@@ -38,6 +38,7 @@ Note: It works only for linear model files. Output files from different model fi
 ---
 ### OneClassSvmRegenerator
 `OneClassSvmRegenerator` regenerates the raw value in *sgn()* of the One-Class SVM's decision function.  
+![one-class svm](http://bit.ly/1TfnRnV)
 
 #### Usage
 `java -classpath libsvm-analyzer.jar tool.OneClassSvmRegenerator [model file path] [test file path] [output dir path]`  

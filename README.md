@@ -17,7 +17,7 @@ Java 1.8+
 or  
 `java -classpath libsvm-analyzer.jar tool.SvmResultAnalyzer [result dir path] [test dir path] [output file path]`  
 
-`[result file path]`: path of a result file including the set of 1 and -1 pea a line  
+`[result file path]`: path of a result file including the set of 1 and -1 per a line  
 `[result dir path]`: path of a directory including result files (Note: The files will be sorted.)  
 `[test file path]`: path of a test file used for `svm_predict` in libsvm to generate the above result file  
 `[test dir path]`: path of a directory including test files (Note: The files will be sorted.)  

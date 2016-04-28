@@ -37,7 +37,7 @@ Note: It works only for linear model files. Output files from different model fi
 
 ---
 ### OneClassSvmRegenerator
-`OneClassSvmRegenerator` regenerates the raw value in *sgn()* of the One-Class SVM's decision function.  
+`OneClassSvmRegenerator` regenerates the value in *sgn()* of the One-Class SVM's decision function.  
 ![one-class svm](./img/one-class-svm.png)
 
 #### Usage
@@ -49,4 +49,4 @@ or
 `[model dir path]`: path of a directory including model files (Note: The files will be sorted.)  
 `[test file path]`: path of a test file used for `svm_predict` in libsvm to generate the above result file  
 `[test dir path]`: path of a directory including test files (Note: The files will be sorted.)  
-`[output dir path]`: path of a newly crated output file including FRR and FAR  
+`[output dir path]`: path of a newly crated output dir for output files of the regenerate values  

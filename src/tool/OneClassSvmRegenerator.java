@@ -95,7 +95,7 @@ public class OneClassSvmRegenerator
         return vectorMatrix;
     }
 
-    public static double estimate(double[] testVector, Kernel kernel, double[] alphas, double[][] supportVectorMatrix, double rho)
+    public static double regenerateValue(double[] testVector, Kernel kernel, double[] alphas, double[][] supportVectorMatrix, double rho)
     {
         double sum = 0.0d;
         for(int i=0;i<supportVectorMatrix.length;i++)
@@ -104,7 +104,7 @@ public class OneClassSvmRegenerator
         return sum - rho;
     }
 
-    public static void analyze(String modelFilePath, String testFilePath, String outputDirPath)
+    public static void regenerate(String modelFilePath, String testFilePath, String outputDirPath)
     {
         String[] inputLines = FileManager.readFile(modelFilePath);
         if(!inputLines[0].endsWith("one_class"))
@@ -129,9 +129,9 @@ public class OneClassSvmRegenerator
         double[][] testVectorMatrix = createTestVectorMatrix(testFilePath, supportVectorMatrix[0].length, labelList);
         String[] outputLines = new String[testVectorMatrix.length];
         for(int i=0;i<testVectorMatrix.length;i++)
-            outputLines[i] = String.valueOf(labelList.get(i)) + "," + String.valueOf(estimate(testVectorMatrix[i], kernel, alphas, supportVectorMatrix, rho));
+            outputLines[i] = String.valueOf(labelList.get(i)) + "," + String.valueOf(regenerateValue(testVectorMatrix[i], kernel, alphas, supportVectorMatrix, rho));
 
-        FileManager.writeFile(outputLines, outputDirPath + FileManager.removeExtension(testFilePath) + ".est");
+        FileManager.writeFile(outputLines, outputDirPath + FileManager.removeExtension(testFilePath) + ".rgn");
     }
 
     public static void main(String[] args)
@@ -140,14 +140,14 @@ public class OneClassSvmRegenerator
         String inputTestPath = args[1];
         String outputDirPath = (args.length >= 3)? args[2] : "";
         if(FileManager.checkIfFile(inputModelPath))
-            analyze(inputModelPath, inputTestPath, outputDirPath);
+            regenerate(inputModelPath, inputTestPath, outputDirPath);
         else
         {
             ArrayList<String> modelFilePathList = FileManager.getFilePathList(inputModelPath);
             ArrayList<String> testFilePathList = FileManager.getFilePathList(inputTestPath);
             int size = modelFilePathList.size();
             for(int i=0;i<size;i++)
-                analyze(modelFilePathList.get(i), testFilePathList.get(i), outputDirPath);
+                regenerate(modelFilePathList.get(i), testFilePathList.get(i), outputDirPath);
         }
     }
 }

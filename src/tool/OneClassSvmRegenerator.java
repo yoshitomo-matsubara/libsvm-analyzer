@@ -131,7 +131,8 @@ public class OneClassSvmRegenerator
         for(int i=0;i<testVectorMatrix.length;i++)
             outputLines[i] = String.valueOf(labelList.get(i)) + "," + String.valueOf(regenerateValue(testVectorMatrix[i], kernel, alphas, supportVectorMatrix, rho));
 
-        FileManager.writeFile(outputLines, outputDirPath + FileManager.removeExtension(testFilePath) + ".rgn");
+        File testFile = new File(testFilePath);
+        FileManager.writeFile(outputLines, outputDirPath + FileManager.removeExtension(testFile.getName()) + ".rgn");
     }
 
     public static void main(String[] args)

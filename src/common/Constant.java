@@ -1,7 +1,6 @@
 package common;
 
-public class Constant
-{
+public class Constant {
     public static final String SPACE_DELIMITER = " ";
     public static final String TAB_DELIMITER = "\t";
     public static final String COMMA_DELIMITER = ",";

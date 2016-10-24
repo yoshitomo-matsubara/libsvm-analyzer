@@ -5,8 +5,8 @@ import common.FileManager;
 import common.LibsvmFileUtil;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 public class SvmResultAnalyzer {
     public static double[] calcFrrFar(String resultFilePath, String testFilePath) {
@@ -44,8 +44,8 @@ public class SvmResultAnalyzer {
             String[] lines = {"Test file,FRR,FAR", inputTestPath + Constant.COMMA_DELIMITER + String.valueOf(rates[0]) + Constant.COMMA_DELIMITER + String.valueOf(rates[1])};
             FileManager.writeFile(lines, outputFilePath);
         } else {
-            ArrayList<String> resultFilePathList = FileManager.getFilePathList(inputResultPath);
-            ArrayList<String> testFilePathList = FileManager.getFilePathList(inputTestPath);
+            List<String> resultFilePathList = FileManager.getFilePathList(inputResultPath);
+            List<String> testFilePathList = FileManager.getFilePathList(inputTestPath);
             Collections.sort(resultFilePathList);
             Collections.sort(testFilePathList);
             String[] lines = new String[resultFilePathList.size() + 1];

@@ -3,14 +3,15 @@ package common;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 public class FileManager {
     public static boolean checkIfFile(String filePath) {
         return (new File(filePath)).isFile();
     }
 
-    public static ArrayList<File> getFileList(String inputDirPath) {
-        ArrayList<File> fileList = new ArrayList<File>();
+    public static List<File> getFileList(String inputDirPath) {
+        List<File> fileList = new ArrayList<>();
         File[] files = (new File(inputDirPath)).listFiles();
         for (File file : files) {
             if (file.isFile()) {
@@ -22,8 +23,8 @@ public class FileManager {
         return fileList;
     }
 
-    public static ArrayList<String> getFilePathList(String inputDirPath) {
-        ArrayList<String> filePathList = new ArrayList<String>();
+    public static List<String> getFilePathList(String inputDirPath) {
+        List<String> filePathList = new ArrayList<>();
         File[] files = (new File(inputDirPath)).listFiles();
         for (File file : files) {
             if (file.isFile()) {
@@ -57,7 +58,7 @@ public class FileManager {
     }
 
     public static String[] readFile(File file) {
-        ArrayList<String> lineList = new ArrayList<String>();
+        List<String> lineList = new ArrayList<>();
         try {
             BufferedReader br = new BufferedReader(new FileReader(file));
             String line;

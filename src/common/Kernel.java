@@ -1,6 +1,5 @@
 package common;
 
-
 public class Kernel {
     public static final String LINEAR_KERNEL_TYPE = "linear";
     public static final String POLYNOMIAL_KERNEL_TYPE = "polynomial";

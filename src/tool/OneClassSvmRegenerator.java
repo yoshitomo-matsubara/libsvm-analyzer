@@ -7,6 +7,7 @@ import common.LibsvmFileUtil;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
 
 public class OneClassSvmRegenerator {
     public static Kernel createKernel(String[] lines) {
@@ -60,7 +61,7 @@ public class OneClassSvmRegenerator {
         return vectorMatrix;
     }
 
-    public static double[][] createTestVectorMatrix(String testFilePath, int featureSize, ArrayList<Integer> labelList) {
+    public static double[][] createTestVectorMatrix(String testFilePath, int featureSize, List<Integer> labelList) {
         String[] lines = FileManager.readFile(testFilePath);
         double[][] vectorMatrix = new double[lines.length][featureSize];
         for (int i = 0; i < vectorMatrix.length; i++) {
@@ -113,7 +114,7 @@ public class OneClassSvmRegenerator {
         double rho = Double.parseDouble(inputLines[nextIndex + 1].split(" ")[1]);
         double[] alphas = new double[svSize];
         double[][] supportVectorMatrix = createSupportVectorMatrix(inputLines, nextIndex + 3, alphas);
-        ArrayList<Integer> labelList = new ArrayList<Integer>();
+        List<Integer> labelList = new ArrayList<>();
         double[][] testVectorMatrix = createTestVectorMatrix(testFilePath, supportVectorMatrix[0].length, labelList);
         String[] outputLines = new String[testVectorMatrix.length];
         for (int i = 0; i < testVectorMatrix.length; i++) {
@@ -131,8 +132,8 @@ public class OneClassSvmRegenerator {
         if (FileManager.checkIfFile(inputModelPath)) {
             regenerate(inputModelPath, inputTestPath, outputDirPath);
         } else {
-            ArrayList<String> modelFilePathList = FileManager.getFilePathList(inputModelPath);
-            ArrayList<String> testFilePathList = FileManager.getFilePathList(inputTestPath);
+            List<String> modelFilePathList = FileManager.getFilePathList(inputModelPath);
+            List<String> testFilePathList = FileManager.getFilePathList(inputTestPath);
             int size = modelFilePathList.size();
             for (int i = 0; i < size; i++) {
                 regenerate(modelFilePathList.get(i), testFilePathList.get(i), outputDirPath);

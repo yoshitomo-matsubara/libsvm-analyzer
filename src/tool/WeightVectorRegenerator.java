@@ -4,11 +4,12 @@ import common.FileManager;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
 
 public class WeightVectorRegenerator {
     public static double[][] loadSupportVectors(File modelFile) {
         String[] lines = FileManager.readFile(modelFile);
-        ArrayList<String> svLineList = new ArrayList<String>();
+        List<String> svLineList = new ArrayList<>();
         boolean isSv = false;
         for (int i = 0; i < lines.length; i++) {
             if (lines[i].startsWith("SV")) {
@@ -83,7 +84,7 @@ public class WeightVectorRegenerator {
         if (FileManager.checkIfFile(inputModelPath)) {
             regenerate(inputModelPath, outputDirPath);
         } else {
-            ArrayList<String> inputFilePathList = FileManager.getFilePathList(inputModelPath);
+            List<String> inputFilePathList = FileManager.getFilePathList(inputModelPath);
             for (String inputFilePath : inputFilePathList) {
                 regenerate(inputFilePath, outputDirPath);
             }
